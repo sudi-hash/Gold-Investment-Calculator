@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gold Investment Calculator</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body { background-color: #f8f9fa; }
+        .container { max-width: 600px; margin-top: 50px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2 class="text-center">Gold Investment Calculator</h2>
+    <form id="goldCalculator">
+        <div class="mb-3">
+            <label class="form-label">Quantity (grams):</label>
+            <input type="number" id="quantity" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Term (Months):</label>
+            <input type="number" id="term" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Current Gold Buying Price ($):</label>
+            <input type="number" id="currentPrice" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Expected Growth Rate (%):</label>
+            <input type="number" id="growthRate" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Actual Cash Out ($):</label>
+            <input type="number" id="actualCashOut" class="form-control" required>
+        </div>
+        <button type="button" class="btn btn-primary w-100" onclick="calculate()">Calculate</button>
+    </form>
+
+    <h4 class="mt-4">Results</h4>
+    <p id="expectedGrowthRate"></p>
+    <p id="expectedGrowth"></p>
+    <p id="expectedCashOut"></p>
+    <p id="expectedYield"></p>
+    <p id="actualCashOutLabel"></p>
+    <p id="actualYield"></p>
+    <p id="totalPayment"></p>
+</div>
+
+<script>
+function calculate() {
+    let quantity = parseFloat(document.getElementById("quantity").value);
+    let term = parseInt(document.getElementById("term").value);
+    let currentPrice = parseFloat(document.getElementById("currentPrice").value);
+    let growthRate = parseFloat(document.getElementById("growthRate").value);
+    let actualCashOut = parseFloat(document.getElementById("actualCashOut").value);
+
+    let creditCardFee = 11 * term;
+    let surcharge = 0.02 * quantity * currentPrice;
+    let expectedGrowth = (quantity * currentPrice * (growthRate / 100));
+    let expectedCashOut = (quantity * currentPrice + expectedGrowth);
+    let expectedYield = (expectedGrowth - creditCardFee - surcharge);
+    let totalPayment = creditCardFee + surcharge;
+    let actualYield = actualCashOut - totalPayment;
+
+    document.getElementById("expectedGrowthRate").innerHTML = `<strong>Expected Growth Rate (%):</strong> ${growthRate}`;
+    document.getElementById("expectedGrowth").innerHTML = `<strong>Expected Growth ($):</strong> ${expectedGrowth.toFixed(2)}`;
+    document.getElementById("expectedCashOut").innerHTML = `<strong>Expected Cash Out ($):</strong> ${expectedCashOut.toFixed(2)}`;
+    document.getElementById("expectedYield").innerHTML = `<strong>Expected Yield ($):</strong> ${expectedYield.toFixed(2)}`;
+    document.getElementById("actualCashOutLabel").innerHTML = `<strong>Actual Cash Out ($):</strong> ${actualCashOut.toFixed(2)}`;
+    document.getElementById("actualYield").innerHTML = `<strong>Actual Yield ($):</strong> ${actualYield.toFixed(2)}`;
+    document.getElementById("totalPayment").innerHTML = `<strong>Total Payment ($):</strong> ${totalPayment.toFixed(2)}`;
+}
+</script>
+
+</body>
+</html>
